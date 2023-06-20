@@ -4,11 +4,12 @@ import { Routes, Route, Link } from "react-router-dom";
 import Credit from "./Credit";
 import Debit from "./Debit";
 
-function Home() {
+function Home({balance}) {
   return (
     <div>
-      <h2>User Profile</h2>
+     <h1>Bank of Dollarbucks</h1> 
 
+    <h2> Current Balance: {balance}</h2>
       <nav>
         <ul>
           <li>
@@ -22,6 +23,7 @@ function Home() {
           </li>
         </ul>
       </nav>
+      <img src="https://i.imgur.com/QbrmTeX.png"></img>
 
      
     </div>

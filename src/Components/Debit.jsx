@@ -7,7 +7,9 @@ function Debit() {
     
 
   return (
-    <div>Debit</div>
+    <div>
+        <h1>Debits</h1>
+    </div>
   )
 }
 

@@ -3,9 +3,23 @@ import React from 'react'
 //removing money out of acct
 //balance passed in as a prop from app and credits apply additions
 //presentational comps
-function Credit() {
+function Credit({balance, handleSubmitCredit, handleInputCredit, handleCreditDesc}) {
+
+
+
+
   return (
-    <div>Credit</div>
+    <div><h1>Credits</h1>
+    <h2>Current Balance : {balance} </h2>
+    <p></p>
+    <form onSubmit={handleSubmitCredit}>
+        <label>Description of new Credit </label><input onChange = {handleCreditDesc}/>
+        <p></p>
+        <label>Amount of new Credit </label><input onChange = {handleInputCredit}/>
+        <p></p>
+        <button type="submit" >Add Credit</button>
+    </form>
+    </div>
   )
 }
 
