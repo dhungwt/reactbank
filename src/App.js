@@ -7,7 +7,7 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  //const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0);
   const [debits, setDebits] = useState(0); //debit at loading
   const [credits, setCredits] = useState(0); //credit at loading
   const [creditHistory, setCreditHistory] = useState([]);
@@ -21,18 +21,21 @@ function App() {
     const total = Number(credits - debits);
     return total;
   }
-  let balance = balanceTotal(credits, debits);
-  console.log(balance);
+  // let balance = balanceTotal(credits, debits);
+  // console.log(balance);
 
+  //fetches initial value upon render
   useEffect(() => {
     fetchCredit();
     fetchDebit();
+
   }, []);
 
   useEffect(() => {
     //recalculates when credits or debits change
-    const balance = Number(credits - debits);
-    console.log(balance);
+    //const balance = ;
+    console.log("line 37: " + balance);
+    setBalance(Number(credits - debits))
   }, [credits, debits]);
 
   async function fetchCredit() {
@@ -41,6 +44,7 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/credits"
       );
       setCredits(result.data);
+    //  setBalance((prevBalance)=>parseInt(prevBalance)+parseInt(result.data))
       //  setCurrentCredits(credits); //set Curr Credits to initial value
     } catch (error) {
       console.error(error);
@@ -53,6 +57,7 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/debits"
       );
       setDebits(result.data);
+    //  setBalance((prevBalance)=>parseInt(prevBalance)-parseInt(result.data))
       // setCurrentDebits(debits); //set Curr debits to initial value
     } catch (error) {
       console.error(error);
@@ -72,7 +77,7 @@ function App() {
       date: date,
     };
     setCreditHistory([...creditHistory, newCredit]);
-    balance = Number(credits - debits);
+    setBalance (Number(credits - debits));
   }
 
   //remove debits to current balance
@@ -88,7 +93,7 @@ function App() {
       date: date,
     };
     setDebitHistory([...debitHistory, newDebit]);
-    balance = Number(credits - debits);
+    setBalance (Number(credits - debits));
   }
 
   // setCreditHistory([
