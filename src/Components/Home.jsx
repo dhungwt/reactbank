@@ -7,22 +7,8 @@ import Debit from "./Debit";
 function Home({balance}) {
   return (
     <div>
-     <h1>Bank of Dollarbucks</h1> 
-
-    <h2> Current Balance: {balance}</h2>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/"> Home </Link>
-          </li>
-          <li>
-            <Link to="/credit">Credit</Link>
-          </li>
-          <li>
-            <Link to="/debit">Debit</Link>
-          </li>
-        </ul>
-      </nav>
+    <h1><u>Bank of DollarBucks</u></h1>
+    <h2> Current Balance: ${balance}</h2>
       <img src="https://i.imgur.com/QbrmTeX.png"></img>
 
      

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import App from "../App";
 //get acct balance from app.js
-//removing money out of acct
+//adding money to of acct
 //balance passed in as a prop from app and credits apply additions
 //presentational comps
-function Credit({ balance, handleSubmitCredit, creditHistory }) {
+function Credit({ credits, balance, handleSubmitCredit, creditHistory }) {
   const [inputCredits, setInputCredits] = useState(0); //credit amt user enters to be added
   const [creditDesc, setCreditDesc] = useState(""); //description user enters for the amount they enter
   const [showHistory, setShowHistory] = useState(false);
@@ -36,7 +36,9 @@ function Credit({ balance, handleSubmitCredit, creditHistory }) {
   return (
     <div>
       <h1>Credits</h1>
-      <h2>Current Balance : {balance} </h2>
+      <h2>Current Balance : ${balance} </h2>
+      <p></p>
+      <h2>Current Credits : ${credits} </h2>
       <p></p>
       <form onSubmit={handleSubmit}>
         <label>Description of new Credit </label>
@@ -45,10 +47,10 @@ function Credit({ balance, handleSubmitCredit, creditHistory }) {
         <label>Amount of new Credit </label>
         <input onChange={(e) => setInputCredits(e.target.value)} />
         <p></p>
-        <button type="submit">Add Credit</button>
+        <button type="submit" className="btn">Add Credit</button>
       </form>
       <p></p>
-      <button type="button" onClick={handleClick}>
+      <button type="button" className="btn" onClick={handleClick}>
         Show Transactions
       </button>
       <div>

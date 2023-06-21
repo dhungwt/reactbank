@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Debit from "./Components/Debit";
 import Credit from "./Components/Credit";
 import Home from "./Components/Home";
-import { Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 
@@ -14,7 +14,7 @@ function App() {
   const [debitHistory, setDebitHistory] = useState([]);
   //const [currentDebits, setCurrentDebits] = useState(0);
   //const [currentCredits, setCurrentCredits] = useState(0); //current total of credits
- 
+
   function balanceTotal(credits, debits) {
     console.log("CREDITS:" + credits);
     console.log("DEBITS:" + debits);
@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     //recalculates when credits or debits change
-    const balance =  Number(credits - debits);
+    const balance = Number(credits - debits);
     console.log(balance);
   }, [credits, debits]);
 
@@ -41,7 +41,7 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/credits"
       );
       setCredits(result.data);
-    //  setCurrentCredits(credits); //set Curr Credits to initial value
+      //  setCurrentCredits(credits); //set Curr Credits to initial value
     } catch (error) {
       console.error(error);
     }
@@ -53,28 +53,43 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/debits"
       );
       setDebits(result.data);
-     // setCurrentDebits(debits); //set Curr debits to initial value
+      // setCurrentDebits(debits); //set Curr debits to initial value
     } catch (error) {
       console.error(error);
     }
   }
 
   //add credits to current balance
-  function handleSubmitCredit(inputCredits,creditDesc) {
+  function handleSubmitCredit(inputCredits, creditDesc) {
     //want to push transaction object into history ex. {desc, amount and date}
     //grab current desc/amount/date push into history
     const date = new Date().toLocaleString(); //use JS method to get date
     setCredits(parseInt(credits) + parseInt(inputCredits));
-    console.log("credits: "+credits+ " inputcredits: "+inputCredits)
+    console.log("credits: " + credits + " inputcredits: " + inputCredits);
     const newCredit = {
       creditDesc: creditDesc,
       amount: inputCredits,
       date: date,
     };
     setCreditHistory([...creditHistory, newCredit]);
-    balance = Number(credits - debits)
+    balance = Number(credits - debits);
   }
 
+  //remove debits to current balance
+  function handleSubmitDebit(inputDebits, debitDesc) {
+    //want to push transaction object into history ex. {desc, amount and date}
+    //grab current desc/amount/date push into history
+    const date = new Date().toLocaleString(); //use JS method to get date
+    setDebits(parseInt(debits) + parseInt(inputDebits));
+    console.log("debits: " + debits + " inputdebits: " + inputDebits);
+    const newDebit = {
+      debitDesc: debitDesc,
+      amount: inputDebits,
+      date: date,
+    };
+    setDebitHistory([...debitHistory, newDebit]);
+    balance = Number(credits - debits);
+  }
 
   // setCreditHistory([
   //   ...creditHistory,
@@ -85,31 +100,56 @@ function App() {
   //   },
   // ]);
 
-
-
   useEffect(() => {
     //logs whenever a new object is added to the credit history array
     console.log(creditHistory);
   }, [creditHistory]);
 
   return (
-    <div className="App">
-      {/* display total balance w/ all additions and reductions applied */}
-      <Routes>
-        <Route path="/" element={<Home balance={balance} />} />
-        <Route
-          path="/credit"
-          element={
-            <Credit
-              handleSubmitCredit={handleSubmitCredit}
-              balance={balance}
-              creditHistory={creditHistory}
-            />
-          }
-        />
-        <Route path="/debit" element={<Debit />} />
-      </Routes>
-    </div>
+    <Router>
+      <div className="App">
+        {/* Navigation */}
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/Credit">Credit</Link>
+            </li>
+            <li>
+              <Link to="/Debit">Debit</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home balance={balance} />} />
+          <Route
+            path="/credit"
+            element={
+              <Credit
+              credits={credits}
+                handleSubmitCredit={handleSubmitCredit}
+                balance={balance}
+                creditHistory={creditHistory}
+              />
+            }
+          />
+          <Route
+            path="/debit"
+            element={
+              <Debit
+              debits={debits}
+                handleSubmitDebit={handleSubmitDebit}
+                balance={balance}
+                debitHistory={debitHistory}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 export default App;
