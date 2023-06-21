@@ -10,17 +10,15 @@ function App() {
   //const [balance, setBalance] = useState(0);
   const [debits, setDebits] = useState(0); //debit at loading
   const [credits, setCredits] = useState(0); //credit at loading
-  const [creditDesc, setCreditDesc] = useState("");
   const [creditHistory, setCreditHistory] = useState([]);
   const [debitHistory, setDebitHistory] = useState([]);
-  const [currentDebits, setCurrentDebits] = useState(0);
-  const [currentCredits, setCurrentCredits] = useState(0); //current total of credits
-  const [inputCredits, setInputCredits] = useState(0); //credit amt user enters to be added
-
+  //const [currentDebits, setCurrentDebits] = useState(0);
+  //const [currentCredits, setCurrentCredits] = useState(0); //current total of credits
+ 
   function balanceTotal(credits, debits) {
     console.log("CREDITS:" + credits);
     console.log("DEBITS:" + debits);
-    const total = credits - debits;
+    const total = Number(credits - debits);
     return total;
   }
   let balance = balanceTotal(credits, debits);
@@ -31,8 +29,9 @@ function App() {
     fetchDebit();
   }, []);
 
-  useEffect(() => { //recalculates when credits or debits change
-    const balance = credits - debits;
+  useEffect(() => {
+    //recalculates when credits or debits change
+    const balance =  Number(credits - debits);
     console.log(balance);
   }, [credits, debits]);
 
@@ -42,6 +41,7 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/credits"
       );
       setCredits(result.data);
+    //  setCurrentCredits(credits); //set Curr Credits to initial value
     } catch (error) {
       console.error(error);
     }
@@ -53,51 +53,43 @@ function App() {
         "https://bank-of-react-b745wfs0u-ajlapid718.vercel.app/debits"
       );
       setDebits(result.data);
+     // setCurrentDebits(debits); //set Curr debits to initial value
     } catch (error) {
       console.error(error);
     }
   }
 
-  //handle debit and credit desc submission, maybe grab url to distinguish
-  function handleCreditDesc(e) {
-    setCreditDesc(e.target.value);
-  }
-
   //add credits to current balance
-  function handleSubmitCredit() {
+  function handleSubmitCredit(inputCredits,creditDesc) {
     //want to push transaction object into history ex. {desc, amount and date}
     //grab current desc/amount/date push into history
     const date = new Date().toLocaleString(); //use JS method to get date
-    setCurrentCredits(currentCredits + inputCredits);
+    setCredits(parseInt(credits) + parseInt(inputCredits));
+    console.log("credits: "+credits+ " inputcredits: "+inputCredits)
     const newCredit = {
       creditDesc: creditDesc,
       amount: inputCredits,
-      date: date
+      date: date,
     };
     setCreditHistory([...creditHistory, newCredit]);
+    balance = Number(credits - debits)
   }
-    
-    // setCreditHistory([
-    //   ...creditHistory,
-    //   {
-    //     creditDesc,
-    //     amount: inputCredits,
-    //     date,
-    //   },
-    // ]);
-  
 
-  function handleInputCredit(e) {
-    //adds credit input to existing credit total
-    const newCredit = e.target.value;
-    setInputCredits(newCredit);
-  }
+  // setCreditHistory([
+  //   ...creditHistory,
+  //   {
+  //     creditDesc,
+  //     amount: inputCredits,
+  //     date,
+  //   },
+  // ]);
+
+
 
   useEffect(() => {
     //logs whenever a new object is added to the credit history array
     console.log(creditHistory);
   }, [creditHistory]);
-
 
   return (
     <div className="App">
@@ -109,9 +101,7 @@ function App() {
           element={
             <Credit
               handleSubmitCredit={handleSubmitCredit}
-              handleInputCredit={handleInputCredit}
               balance={balance}
-              handleCreditDesc={handleCreditDesc}
             />
           }
         />
