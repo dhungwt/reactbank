@@ -75,6 +75,7 @@ function App() {
     balance = Number(credits - debits)
   }
 
+
   // setCreditHistory([
   //   ...creditHistory,
   //   {
@@ -102,6 +103,7 @@ function App() {
             <Credit
               handleSubmitCredit={handleSubmitCredit}
               balance={balance}
+              creditHistory={creditHistory}
             />
           }
         />
