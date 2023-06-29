@@ -9,13 +9,16 @@ function Debit({ debits, balance, handleSubmitDebit, debitHistory }) {
   const [debitDesc, setCDebitDesc] = useState(""); //description user enters for the amount they enter
   const [showHistory, setShowHistory] = useState(false);
 
+  //event handler for when user clicks submit after entering input in the form
   function handleSubmit(e) {
     e.preventDefault();
     console.log("DEBITS: " + inputDebits);
     console.log("DESC: " + debitDesc);
+    //calls handleSubmitDedit from main to pass in new transaction to update overall debits and add to transaction history
     handleSubmitDebit(inputDebits, debitDesc);
   }
 
+//event handler to toggle transaction history
   function handleClick(e) {
     setShowHistory(!showHistory);
   }
@@ -54,6 +57,7 @@ function Debit({ debits, balance, handleSubmitDebit, debitHistory }) {
         Show Transactions
       </button>
       <div>
+        {/* will display transactions if showHistory is true and lists indiv transactions  */}
         {showHistory && (
           <div>
             <h3>

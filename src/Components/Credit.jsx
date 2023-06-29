@@ -9,13 +9,16 @@ function Credit({ credits, balance, handleSubmitCredit, creditHistory }) {
   const [creditDesc, setCreditDesc] = useState(""); //description user enters for the amount they enter
   const [showHistory, setShowHistory] = useState(false);
 
+  //event handler for when user clicks submit after entering input in the form
   function handleSubmit(e) {
     e.preventDefault();
     console.log("CREDITS: " + inputCredits);
     console.log("DESC: " + creditDesc);
+    //calls handleSubmitCredit from main to pass in new transaction to update overall credits and add to transaction history
     handleSubmitCredit(inputCredits, creditDesc);
   }
 
+  //event handler to toggle transaction history
   function handleClick(e) {
     setShowHistory(!showHistory);
   }
@@ -54,6 +57,7 @@ function Credit({ credits, balance, handleSubmitCredit, creditHistory }) {
         Show Transactions
       </button>
       <div>
+        {/* will display transactions if showHistory is true and lists indiv transactions  */}
         {showHistory && (
           <div>
             <h3>

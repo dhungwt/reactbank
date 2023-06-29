@@ -15,6 +15,7 @@ function App() {
   //const [currentDebits, setCurrentDebits] = useState(0);
   //const [currentCredits, setCurrentCredits] = useState(0); //current total of credits
 
+  //calculates current total of credits and debits
   function balanceTotal(credits, debits) {
     console.log("CREDITS:" + credits);
     console.log("DEBITS:" + debits);
@@ -38,6 +39,7 @@ function App() {
     setBalance(Number(credits - debits))
   }, [credits, debits]);
 
+  //fetches initial credit value
   async function fetchCredit() {
     try {
       const result = await axios.get(
@@ -51,6 +53,7 @@ function App() {
     }
   }
 
+  //fetches initial debit value
   async function fetchDebit() {
     try {
       const result = await axios.get(
@@ -80,7 +83,7 @@ function App() {
     setBalance (Number(credits - debits));
   }
 
-  //remove debits to current balance
+  //remove debits from current balance
   function handleSubmitDebit(inputDebits, debitDesc) {
     //want to push transaction object into history ex. {desc, amount and date}
     //grab current desc/amount/date push into history
@@ -113,7 +116,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Navigation */}
+        {/* Navigation Links */}
         <nav>
           <ul>
             <li>
@@ -127,7 +130,7 @@ function App() {
             </li>
           </ul>
         </nav>
-
+        {/* Routes to features */}
         <Routes>
           <Route path="/" element={<Home balance={balance} />} />
           <Route
